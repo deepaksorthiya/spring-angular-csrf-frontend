@@ -1,4 +1,12 @@
-# SpringAngularCsrfFrontend
+[![Angular Build](https://github.com/deepaksorthiya/spring-angular-csrf-frontend/actions/workflows/angular-build.yml/badge.svg)](https://github.com/deepaksorthiya/spring-angular-csrf-frontend/actions/workflows/angular-build.yml)
+
+## Prerequisites
+
+Make sure backend is running. Check here [Spring Boot Backend](https://github.com/deepaksorthiya/spring-boot-security-csrf-spa.git)
+
+(Optional ) you can update backend proxy url in <code>src/proxy.conf.json</code>.
+
+## Spring Angular Csrf Frontend
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
 
