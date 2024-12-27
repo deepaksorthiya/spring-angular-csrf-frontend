@@ -1,4 +1,4 @@
-[![Java Maven Build Test](https://github.com/deepaksorthiya/spring-angular-csrf-frontend/actions/workflows/angular-build.yml/badge.svg)](https://github.com/spring-angular-csrf-frontend/actions/workflows/angular-build.yml)
+[![Angular Build](https://github.com/deepaksorthiya/spring-angular-csrf-frontend/actions/workflows/angular-build.yml/badge.svg)](https://github.com/deepaksorthiya/spring-angular-csrf-frontend/actions/workflows/angular-build.yml)
 
 ## Prerequisites
 
