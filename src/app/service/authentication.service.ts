@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
   private currentUserSubject = new BehaviorSubject<any | null>(null);
-
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   checkAuthentication(): Observable<void> {
@@ -14,7 +15,8 @@ export class AuthenticationService {
   }
 
   me(): Observable<any> {
-    return this.http.get<any>('/api/user/me').pipe(
+    console.log('API URL: ' + this.apiUrl);
+    return this.http.get<any>(this.apiUrl + '/api/user/me').pipe(
       tap({
         next: (user) => {
           this.isAuthenticatedSubject.next(true);
@@ -37,12 +39,12 @@ export class AuthenticationService {
       'application/x-www-form-urlencoded'
     );
     return this.http
-      .post<void>('/api/login', params, { headers })
+      .post<void>(this.apiUrl + '/api/login', params, { headers })
       .pipe(switchMap(() => this.me()));
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>('/api/logout', {}).pipe(
+    return this.http.post<void>(this.apiUrl + '/api/logout', {}).pipe(
       tap({
         next: () => this.isAuthenticatedSubject.next(false),
       })

@@ -4,20 +4,34 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpXsrfTokenExtractor,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable()
 export class ApiUrlInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  private apiUrl = environment.apiUrl;
+  constructor(
+    private router: Router,
+    private httpXsrfTokenExtractor: HttpXsrfTokenExtractor
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('Request URL: ' + req.url);
+    console.log(
+      'Request URL: ' +
+        req.url +
+        '  Request Method: ' +
+        req.method +
+        ' Request Headers: ' +
+        req.headers.keys()
+    );
+    console.log('XSRF TOKEN: ' + this.httpXsrfTokenExtractor.getToken());
     if (req.url.startsWith('/assets')) {
       return next.handle(req);
     }
