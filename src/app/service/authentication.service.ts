@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,6 +15,7 @@ export class AuthenticationService {
   }
 
   me(): Observable<any> {
+    console.log('Environment URL: ' + environment);
     console.log('API URL: ' + this.apiUrl);
     return this.http.get<any>(this.apiUrl + '/api/user/me').pipe(
       tap({
@@ -31,6 +32,7 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string): Observable<any> {
+    console.log('Environment Info: ' + environment.production);
     const params = new HttpParams()
       .set('username', username)
       .set('password', password);
