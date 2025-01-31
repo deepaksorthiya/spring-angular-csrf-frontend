@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../service/authentication.service';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [JsonPipe, AsyncPipe],
+  imports: [JsonPipe, AsyncPipe, RouterLink],
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
