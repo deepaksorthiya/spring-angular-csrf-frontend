@@ -2,7 +2,7 @@ import {
   ApplicationConfig,
   inject,
   provideAppInitializer,
-  provideZoneChangeDetection
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -10,19 +10,11 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
-  withXsrfConfiguration,
 } from '@angular/common/http';
-import { catchError, Observable, of } from 'rxjs';
 import { routes } from './app.routes';
 import { ApiUrlInterceptor } from './interceptor/api-url.interceptor';
+import { CustomCsrfInterceptor } from './interceptor/custom-csrf.interceptor';
 import { AuthenticationService } from './service/authentication.service';
-
-function checkAuthentication(
-  authService: AuthenticationService
-): () => Observable<any> {
-  return () =>
-    authService.checkAuthentication().pipe(catchError((err) => of(null)));
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,25 +31,16 @@ export const appConfig: ApplicationConfig = {
     //   return initializerFn();
     // }),
     provideAppInitializer(() => {
-      return inject(AuthenticationService)
-        .checkAuthentication()
-        .pipe(
-          catchError((error) => {
-            // Handle the error here
-            console.error('ERROR :: ', error);
-            return of(null);
-          })
-        );
+      return inject(AuthenticationService).checkAuthentication();
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptorsFromDi(),
-      withXsrfConfiguration({
-        cookieName: 'XSRF-TOKEN',
-        headerName: 'X-XSRF-TOKEN',
-      })
-    ),
+    provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomCsrfInterceptor,
+      multi: true,
+    },
   ],
 };

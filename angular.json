@@ -72,7 +72,7 @@
             },
             "development": {
               "buildTarget": "spring-angular-csrf-frontend:build:development",
-              "proxyConfig": "src/proxy.prod.conf.json"
+              "proxyConfig": "src/proxy.dev.conf.json"
             }
           },
           "defaultConfiguration": "development"

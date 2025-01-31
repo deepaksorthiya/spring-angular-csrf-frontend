@@ -4,20 +4,14 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpXsrfTokenExtractor,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '../../environments/environment.development';
 
 @Injectable()
 export class ApiUrlInterceptor implements HttpInterceptor {
-  private apiUrl = environment.apiUrl;
-  constructor(
-    private router: Router,
-    private httpXsrfTokenExtractor: HttpXsrfTokenExtractor
-  ) {}
+  constructor(private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -31,18 +25,12 @@ export class ApiUrlInterceptor implements HttpInterceptor {
         ' Request Headers: ' +
         req.headers.keys()
     );
-    console.log('XSRF TOKEN: ' + this.httpXsrfTokenExtractor.getToken());
     if (req.url.startsWith('/assets')) {
       return next.handle(req);
     }
-    //const apiUrl = 'http://localhost:8080';
-    const request = req.clone({
-      //url: apiUrl + req.url,
-      withCredentials: true, // Needed since we are using Session Cookies
-    });
 
     return next
-      .handle(request)
+      .handle(req)
       .pipe(
         catchError((error: HttpErrorResponse) => this.handleErrorRes(error))
       );
