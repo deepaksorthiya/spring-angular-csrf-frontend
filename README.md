@@ -8,7 +8,7 @@ Make sure backend is running. Check here [Spring Boot Backend](https://github.co
 
 ## Spring Angular Csrf Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.5.
 
 ## Development server
 
