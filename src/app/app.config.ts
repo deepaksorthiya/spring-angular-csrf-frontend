@@ -13,7 +13,7 @@ import {
 } from '@angular/common/http';
 import { routes } from './app.routes';
 import { ApiUrlInterceptor } from './interceptor/api-url.interceptor';
-import { CustomCsrfInterceptor } from './interceptor/custom-csrf.interceptor';
+import { LogCsrfInterceptor } from './interceptor/log-csrf.interceptor';
 import { AuthenticationService } from './service/authentication.service';
 
 export const appConfig: ApplicationConfig = {
@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CustomCsrfInterceptor,
+      useClass: LogCsrfInterceptor,
       multi: true,
     },
   ],

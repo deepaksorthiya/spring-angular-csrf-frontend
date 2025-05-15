@@ -1,7 +1,7 @@
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../service/authentication.service';
-import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +24,19 @@ export class HomeComponent {
       next: () => {
         alert('Logout successful');
         this.router.navigateByUrl('/login');
+      },
+    });
+  }
+
+  performPostRequest(): void {
+    this.authService.performPostRequest().subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        alert('Post request successful');
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        alert('Post request failed, check the console log for details');
       },
     });
   }

@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class CustomCsrfInterceptor implements HttpInterceptor {
+export class LogCsrfInterceptor implements HttpInterceptor {
   constructor(private httpXsrfTokenExtractor: HttpXsrfTokenExtractor) {}
 
   intercept(
@@ -26,21 +26,6 @@ export class CustomCsrfInterceptor implements HttpInterceptor {
     );
     const csrfToken = this.httpXsrfTokenExtractor.getToken();
     console.log('XSRF TOKEN: ', csrfToken);
-    if (req.url.startsWith('/assets')) {
-      return next.handle(req);
-    }
-
-    // Needed since we are using Session Cookies
-    let request = req.clone({
-      withCredentials: true,
-    });
-
-    const cookieheaderName = 'X-XSRF-TOKEN';
-    if (csrfToken !== null && !req.headers.has(cookieheaderName)) {
-      request = request.clone({
-        headers: request.headers.set(cookieheaderName, csrfToken),
-      });
-    }
-    return next.handle(request);
+    return next.handle(req);
   }
 }

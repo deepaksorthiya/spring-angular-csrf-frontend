@@ -17,14 +17,6 @@ export class ApiUrlInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(
-      'Request URL: ' +
-        req.url +
-        '  Request Method: ' +
-        req.method +
-        ' Request Headers: ' +
-        req.headers.keys()
-    );
     if (req.url.startsWith('/assets')) {
       return next.handle(req);
     }

@@ -58,6 +58,10 @@ export class AuthenticationService {
       .pipe(switchMap(() => this.me()));
   }
 
+  performPostRequest() {
+    return this.http.post('/api/post', {});
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>('/api/logout', {}).pipe(
       tap({
