@@ -62,6 +62,10 @@ export class AuthenticationService {
     return this.http.post('/api/post', {});
   }
 
+  getBackendServerInfo() {
+    return this.http.get('/api/server-info');
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>('/api/logout', {}).pipe(
       tap({

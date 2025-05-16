@@ -11,6 +11,7 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class HomeComponent {
   currentUser$: any;
+  serverInfo: any;
 
   constructor(
     private authService: AuthenticationService,
@@ -24,6 +25,18 @@ export class HomeComponent {
       next: () => {
         alert('Logout successful');
         this.router.navigateByUrl('/login');
+      },
+    });
+  }
+
+  getBackendServerInfo(): void {
+    this.authService.getBackendServerInfo().subscribe({
+      next: (response) => {
+        this.serverInfo = response;
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        alert('Request failed, check the console log for details');
       },
     });
   }

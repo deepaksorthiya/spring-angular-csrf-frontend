@@ -1,6 +1,8 @@
-<p>Hello {{ currentUser$ | async | json }}</p>
+<p>User Info {{ currentUser$ | async | json }}</p>
+<p>Server Info {{ serverInfo ? (serverInfo | json) : "{}" }}</p>
 <button type="button" (click)="logout()">Logout</button>
 <button type="button" (click)="performPostRequest()">
   Perform Post Request
 </button>
+<button type="button" (click)="getBackendServerInfo()">Get Server Info</button>
 <button type="button" routerLink="/dashboard">Got To Dashboard</button>
