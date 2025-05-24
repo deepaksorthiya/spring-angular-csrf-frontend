@@ -8,6 +8,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -21,16 +22,12 @@ export class AuthenticationService {
 
   me(): Observable<any> {
     return this.http
-      .get<any>('/api/user/me')
+      .get<any>(environment.apiUrl + '/api/user/me')
       .pipe(
         tap({
           next: (user) => {
             this.isAuthenticatedSubject.next(true);
             this.currentUserSubject.next(user);
-          },
-          error: (error) => {
-            // Handle the error here
-            console.error('ERROR from TAP ERROR :: ', error);
           },
         })
       )
@@ -54,20 +51,20 @@ export class AuthenticationService {
       'application/x-www-form-urlencoded'
     );
     return this.http
-      .post<void>('/api/login', params, { headers })
+      .post<void>(environment.apiUrl + '/api/login', params, { headers })
       .pipe(switchMap(() => this.me()));
   }
 
   performPostRequest() {
-    return this.http.post('/api/post', {});
+    return this.http.post(environment.apiUrl + '/api/post', {});
   }
 
   getBackendServerInfo() {
-    return this.http.get('/api/server-info');
+    return this.http.get(environment.apiUrl + '/api/server-info');
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>('/api/logout', {}).pipe(
+    return this.http.post<void>(environment.apiUrl + '/api/logout', {}).pipe(
       tap({
         next: () => this.isAuthenticatedSubject.next(false),
       })

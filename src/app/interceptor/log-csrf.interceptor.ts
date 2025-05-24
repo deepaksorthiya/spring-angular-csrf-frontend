@@ -26,6 +26,15 @@ export class LogCsrfInterceptor implements HttpInterceptor {
     );
     const csrfToken = this.httpXsrfTokenExtractor.getToken();
     console.log('XSRF TOKEN: ', csrfToken);
+    if (csrfToken) {
+      req = req.clone({
+        setHeaders: {
+          'X-XSRF-TOKEN': csrfToken,
+        },
+      });
+    } else {
+      console.warn('No XSRF token found in the request.');
+    }
     return next.handle(req);
   }
 }

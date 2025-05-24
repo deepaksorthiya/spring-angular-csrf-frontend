@@ -21,6 +21,10 @@ export class ApiUrlInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
+    req = req.clone({
+      withCredentials: true, // Ensure cookies are sent with the each request
+    });
+
     return next
       .handle(req)
       .pipe(
