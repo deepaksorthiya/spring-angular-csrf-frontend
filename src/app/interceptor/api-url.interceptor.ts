@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Injectable()
 export class ApiUrlInterceptor implements HttpInterceptor {
@@ -36,6 +37,7 @@ export class ApiUrlInterceptor implements HttpInterceptor {
     switch (error.status) {
       case 401:
         this.router.navigateByUrl('/login', { replaceUrl: true });
+        localStorage.setItem(AuthenticationService.isAuthenticatedKey, 'false');
         break;
     }
     return throwError(() => error);

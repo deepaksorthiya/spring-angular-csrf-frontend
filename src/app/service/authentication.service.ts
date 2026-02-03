@@ -14,7 +14,10 @@ import { environment } from '../../environments/environment';
 export class AuthenticationService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
   private currentUserSubject = new BehaviorSubject<any | null>(null);
-  constructor(private http: HttpClient) {}
+  public static isAuthenticatedKey = 'isAuthenticated';
+  constructor(private http: HttpClient) {
+    localStorage.setItem(AuthenticationService.isAuthenticatedKey, '');
+  }
 
   checkAuthentication(): Observable<void> {
     return this.me();
@@ -28,6 +31,10 @@ export class AuthenticationService {
           next: (user) => {
             this.isAuthenticatedSubject.next(true);
             this.currentUserSubject.next(user);
+            localStorage.setItem(
+              AuthenticationService.isAuthenticatedKey,
+              'true'
+            );
           },
         })
       )
@@ -37,6 +44,10 @@ export class AuthenticationService {
           console.error('ERROR from CatchERROR :: ', error);
           this.isAuthenticatedSubject.next(false);
           this.currentUserSubject.next(null);
+          localStorage.setItem(
+            AuthenticationService.isAuthenticatedKey,
+            ''
+          );
           return of(null);
         })
       );
@@ -66,7 +77,11 @@ export class AuthenticationService {
   logout(): Observable<void> {
     return this.http.post<void>(environment.apiUrl + '/api/logout', {}).pipe(
       tap({
-        next: () => this.isAuthenticatedSubject.next(false),
+        next: () => {
+          this.isAuthenticatedSubject.next(false);
+          this.currentUserSubject.next(null);
+          localStorage.setItem(AuthenticationService.isAuthenticatedKey, '');
+        }
       })
     );
   }

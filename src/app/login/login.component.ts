@@ -26,7 +26,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +34,11 @@ export class LoginComponent {
       username: ['user', Validators.required],
       password: ['password', Validators.required],
     });
+    if (localStorage.getItem(AuthenticationService.isAuthenticatedKey)) {
+      // If the user is already authenticated, redirect to home
+      this.router.navigateByUrl('/home');
+      return;
+    }
   }
 
   login(): void {
